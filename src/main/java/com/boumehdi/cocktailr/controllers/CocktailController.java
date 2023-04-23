@@ -20,6 +20,11 @@ public class CocktailController {
         this.cocktailService.postCocktail(cocktail);
         return new ResponseEntity<>( HttpStatus.CREATED);
     }
+
+    @GetMapping("/cocktail")
+    public List<Cocktail> getAllCocktails(){
+        return cocktailService.getCocktail(null);
+    }
     @GetMapping("/cocktail/{id}")
     public List<Cocktail> getCocktail(@PathVariable(required=false) Long id){
         return cocktailService.getCocktail(id);

@@ -1,5 +1,6 @@
 package com.boumehdi.cocktailr.controllers;
 
+import com.boumehdi.cocktailr.models.Cocktail;
 import com.boumehdi.cocktailr.models.Ingredient;
 import com.boumehdi.cocktailr.models.dto.IngredientDto;
 import com.boumehdi.cocktailr.services.IngredientService;
@@ -26,7 +27,10 @@ public class IngredientController {
         System.out.println("GET > ingredient id = " + id);
         return ingredientService.getIngredient(id);
     }
-
+    @GetMapping("/ingredient")
+    public List<Ingredient> getAllIngredients(){
+        return ingredientService.getIngredient(null);
+    }
     @DeleteMapping("/ingredient/{id}")
     public ResponseEntity deleteIngredient(@PathVariable Long id){
         this.ingredientService.deleteIngredient(id);
