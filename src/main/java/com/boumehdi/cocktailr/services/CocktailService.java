@@ -40,6 +40,7 @@ public class CocktailService {
         Cocktail c = mapper.cocktailDtoToCocktail(cocktail);
 
         // Save Cocktail in database, and return created object
+        c = repository.save(c);
         return repository.save(c);
     }
 

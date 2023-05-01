@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class CocktailController {
     private CocktailService cocktailService;
@@ -17,8 +18,8 @@ public class CocktailController {
     }
     @PostMapping("/cocktail")
     public ResponseEntity<Cocktail> addCocktail(@RequestBody CocktailDto cocktail){
-        this.cocktailService.postCocktail(cocktail);
-        return new ResponseEntity<>( HttpStatus.CREATED);
+        Cocktail createdCocktail = this.cocktailService.postCocktail(cocktail);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdCocktail);
     }
 
     @GetMapping("/cocktail")
