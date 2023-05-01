@@ -1,5 +1,6 @@
 package com.boumehdi.cocktailr.controllers;
 
+import com.boumehdi.cocktailr.models.Cocktail;
 import com.boumehdi.cocktailr.models.Ingredient;
 import com.boumehdi.cocktailr.models.dto.IngredientDto;
 import com.boumehdi.cocktailr.services.IngredientService;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class IngredientController {
     private IngredientService ingredientService;
@@ -18,15 +20,19 @@ public class IngredientController {
     @PostMapping("/ingredient")
     public ResponseEntity<Ingredient> addIngredient(@RequestBody IngredientDto ingredient){
         System.out.println("POST > ingredient = " + ingredient);
-        this.ingredientService.postIngredient(ingredient);
-        return new ResponseEntity<>( HttpStatus.CREATED);
+        Ingredient createdIngredient = this.ingredientService.postIngredient(ingredient);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdIngredient);
+
     }
     @GetMapping("/ingredient/{id}")
     public List<Ingredient> getIngredient(@PathVariable(required=false) Long id){
         System.out.println("GET > ingredient id = " + id);
         return ingredientService.getIngredient(id);
     }
-
+    @GetMapping("/ingredient")
+    public List<Ingredient> getAllIngredients(){
+        return ingredientService.getIngredient(null);
+    }
     @DeleteMapping("/ingredient/{id}")
     public ResponseEntity deleteIngredient(@PathVariable Long id){
         this.ingredientService.deleteIngredient(id);

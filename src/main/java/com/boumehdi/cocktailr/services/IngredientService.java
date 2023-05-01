@@ -1,5 +1,6 @@
 package com.boumehdi.cocktailr.services;
 import com.boumehdi.cocktailr.mappers.IngredientMapper;
+import com.boumehdi.cocktailr.models.Cocktail;
 import com.boumehdi.cocktailr.models.dto.IngredientDto;
 import com.boumehdi.cocktailr.models.Ingredient;
 import com.boumehdi.cocktailr.repositories.IngredientRepository;
@@ -27,11 +28,19 @@ public class IngredientService {
     public Ingredient postIngredient(IngredientDto ingredient)
     {
         // Verify if ingredient with this name is not already in our database
-        if(!repository.findByName(ingredient.getName()).isEmpty()){
+        /*if(!repository.findByName(ingredient.getName()).isEmpty()){
             throw new ApiException("Ingredient with this name already exists", HttpStatus.CONFLICT);
+        }*/
+
+        // Check if ingredient with this name is already in our database
+        List<Ingredient> existingIngredient = repository.findByName(ingredient.getName());
+
+        // If the cocktail already exists, return it
+        if(!existingIngredient.isEmpty()){
+            return existingIngredient.get(0);
         }
 
-        // Create an Ingredient from the IngredientDto (to add ID)
+        // Otherwise, create an Ingredient from the IngredientDto (to add ID)
         Ingredient i = mapper.ingredientDtoToIngredient(ingredient);
 
         // Save Ingredient in database, and return created object
